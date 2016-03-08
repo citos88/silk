@@ -2,7 +2,7 @@ import re
 
 from django.template import Library
 from django.template.defaultfilters import stringfilter
-from django.utils import timezone
+from datetime import datetime
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
@@ -56,7 +56,7 @@ def _process_microseconds(dt_strftime):
 
 
 def _silk_date_time(dt):
-    today = timezone.now().date()
+    today = datetime.now().date()
     if dt.date() == today:
         dt_strftime = dt.strftime('%H:%M:%S.%f')
         return _process_microseconds(dt_strftime)
@@ -64,7 +64,7 @@ def _silk_date_time(dt):
         return _process_microseconds(dt.strftime('%Y.%m.%d %H:%M.%f'))
 
 
-@register.filter(expects_localtime=True)
+@register.filter
 def silk_date_time(dt):
     return _silk_date_time(dt)
 

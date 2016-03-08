@@ -2,7 +2,7 @@
 {% load filters %}
 {% load nav %}
 {% load inclusion %}
-{% load staticfiles %}
+{% load static %}
 
 {% block js %}
     {{ block.super }}
@@ -10,7 +10,7 @@
 
 {% block style %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'silk/css/summary.css' %}">
+    <link rel="stylesheet" href="{% get_static_prefix %}silk/css/summary.css">
     <style>
         #query-info-div {
             margin-top: 15px;
@@ -48,10 +48,12 @@
             </div>
             {% if code %}
                 <pre id="code"><code>{% code code actual_line %}</code></pre>
-            {% elif code_error %}
-                <div id="error-div">
-                    {{ code_error }}
-                </div>
+            {%else%}
+                {% if code_error %}
+                    <div id="error-div">
+                        {{ code_error }}
+                    </div>
+                {%endif%}
             {% endif %}
 
         </div>

@@ -92,7 +92,7 @@ class RequestModelFactory(object):
         """
         body = ''
         if content_type in content_type_form:
-            body = self.request.POST
+            body = self.request.POST.copy()
             body = json.dumps(dict(body), sort_keys=True, indent=4)
         elif content_type in content_types_json:
             try:
@@ -103,7 +103,7 @@ class RequestModelFactory(object):
 
     def body(self):
         content_type, char_set = self.content_type()
-        raw_body = self.request.body
+        raw_body = self.request.raw_post_data
         if char_set:
             try:
                 raw_body = raw_body.decode(char_set)

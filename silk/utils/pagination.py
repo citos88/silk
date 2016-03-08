@@ -5,7 +5,7 @@ __author__ = 'mtford'
 
 def _page(request, query_set):
     paginator = Paginator(query_set, 200)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get('page', 1)
     try:
         page = paginator.page(page_number)
     except PageNotAnInteger:

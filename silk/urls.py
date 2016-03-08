@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls.defaults import patterns, url
 
 from silk.views.profile_detail import ProfilingDetailView
 from silk.views.profiling import ProfilingView

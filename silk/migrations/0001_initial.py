@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from datetime import datetime
 from django.db import models, migrations
 import uuid
-import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -17,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('name', models.CharField(max_length=300, blank=True, default='')),
-                ('start_time', models.DateTimeField(default=django.utils.timezone.now)),
+                ('start_time', models.DateTimeField(default=datetime.now)),
                 ('end_time', models.DateTimeField(blank=True, null=True)),
                 ('time_taken', models.FloatField(blank=True, null=True)),
                 ('file_path', models.CharField(max_length=300, blank=True, default='')),
@@ -40,7 +39,7 @@ class Migration(migrations.Migration):
                 ('raw_body', models.TextField(blank=True, default='')),
                 ('body', models.TextField(blank=True, default='')),
                 ('method', models.CharField(max_length=10)),
-                ('start_time', models.DateTimeField(db_index=True, default=django.utils.timezone.now)),
+                ('start_time', models.DateTimeField(db_index=True, default=datetime.now)),
                 ('view_name', models.CharField(db_index=True, blank=True, default='', max_length=300, null=True)),
                 ('end_time', models.DateTimeField(blank=True, null=True)),
                 ('time_taken', models.FloatField(blank=True, null=True)),
@@ -68,7 +67,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('query', models.TextField()),
-                ('start_time', models.DateTimeField(default=django.utils.timezone.now, blank=True, null=True)),
+                ('start_time', models.DateTimeField(default=datetime.now, blank=True, null=True)),
                 ('end_time', models.DateTimeField(blank=True, null=True)),
                 ('time_taken', models.FloatField(blank=True, null=True)),
                 ('traceback', models.TextField()),

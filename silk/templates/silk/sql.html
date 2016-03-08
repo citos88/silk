@@ -2,7 +2,7 @@
 
 {% load nav %}
 {% load filters %}
-{% load staticfiles %}
+{% load static %}
 {% load inclusion %}
 
 {% block style %}
@@ -63,17 +63,19 @@
             padding: 5px;
         }
     </style>
-    <link rel="stylesheet" href="{% static 'silk/css/colors.css' %}">
-    <link rel="stylesheet" href="{% static 'silk/css/numeric.css' %}">
-    <link rel="stylesheet" href="{% static 'silk/css/summary.css' %}">
-    <link rel="stylesheet" href="{% static 'silk/css/cell.css' %}">
+    <link rel="stylesheet" href="{% get_static_prefix %}silk/css/colors.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}silk/css/numeric.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}silk/css/summary.css">
+    <link rel="stylesheet" href="{% get_static_prefix %}silk/css/cell.css">
 {% endblock %}
 
 {% block menu %}
     {% if profile %}
         {% profile_menu request profile silk_request %}
-    {% elif silk_request %}
-        {% request_menu request silk_request %}
+    {%else%}
+        {% if silk_request %}
+            {% request_menu request silk_request %}
+        {%endif%}
     {% endif %}
 {% endblock %}
 
@@ -104,15 +106,19 @@
                     <th class="right-aligned">Num. Joins</th>
                     <th class="right-aligned">Execution Time (ms)</th>
                 </tr>
-                {% for sql_query in items %}
+                {% for sql_query in items.object_list %}
                     <!-- TODO: Pretty grimy... -->
                     <tr class="data-row" onclick="window.location=' \
                        {% if profile and silk_request %}\
-                           {% url "silk:request_and_profile_sql_detail" silk_request.id profile.id sql_query.id %}\
-                       {% elif profile %}\
-                           {% url "silk:profile_sql_detail" profile.id sql_query.id %}\
-                       {% elif silk_request %}\
-                           {% url "silk:request_sql_detail" silk_request.id sql_query.id %}\
+                           {% url silk:request_and_profile_sql_detail silk_request.id profile.id sql_query.id %}\
+                       {% else %}\
+                           {%if profile%}\
+                                {% url silk:profile_sql_detail profile.id sql_query.id %}\
+                            {%else%}\
+                                {%if silk_request%}\
+                                    {% url silk:request_sql_detail silk_request.id sql_query.id %}\
+                                {%endif%}\
+                            {%endif%}\
                        {% endif %}\
                         ';">
                         <td class="left-aligned">+{{ sql_query.start_time_relative }}</td>

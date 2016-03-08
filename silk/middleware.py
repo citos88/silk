@@ -4,7 +4,7 @@ import random
 from django.core.urlresolvers import reverse, NoReverseMatch
 
 from django.db.models.sql.compiler import SQLCompiler
-from django.utils import timezone
+from datetime import datetime
 
 from silk.collector import DataCollector
 
@@ -84,6 +84,7 @@ class SilkyMiddleware(object):
 
     @silk_meta_profiler()
     def process_request(self, request):
+        post_data = request.POST
         request_model = None
         if _should_intercept(request):
             Logger.debug('process_request')
@@ -95,7 +96,6 @@ class SilkyMiddleware(object):
             request_model = RequestModelFactory(request).construct_request_model()
         DataCollector().configure(request_model)
 
-
     def _process_response(self, response):
         Logger.debug('Process response')
         with silk_meta_profiler():
@@ -105,7 +105,7 @@ class SilkyMiddleware(object):
             if silk_request:
                 silk_response = ResponseModelFactory(response).construct_response_model()
                 silk_response.save()
-                silk_request.end_time = timezone.now()
+                silk_request.end_time = datetime.now()
                 collector.finalise()
             else:
                 Logger.error(

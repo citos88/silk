@@ -1,6 +1,6 @@
 {% extends 'silk/base/root_base.html' %}
 {% load inclusion %}
-{% load staticfiles %}
+{% load static %}
 {% block menu %}
     {% root_menu request %}
 {% endblock %}
@@ -89,7 +89,7 @@
                 <table id="filter-table">
                     <tr>
                         <td>
-                            <img id="filter-image" src="{% static 'silk/filter2.png' %}">
+                            <img id="filter-image" src="{% get_static_prefix %}silk/filter2.png">
 
                         </td>
                         <td id="filter-cell">
@@ -157,15 +157,15 @@
                     <div class="desc">Profiles</div>
                 </div>
                 <div class="summary-cell">
-                    <div class="num"><span class="numeric">{{ avg_overall_time | floatformat:0 }}<span class="unit">ms</span></span></div>
+                    <div class="num"><span class="numeric">{{ avg_overall_time|floatformat:0 }}<span class="unit">ms</span></span></div>
                     <div class="desc">Avg. Time</div>
                 </div>
                 <div class="summary-cell">
-                    <div class="num"><span class="numeric">{{ avg_num_queries | floatformat:2 }}</span></div>
+                    <div class="num"><span class="numeric">{{ avg_num_queries|floatformat:2 }}</span></div>
                     <div class="desc">Avg. #Queries</div>
                 </div>
                 <div class="summary-cell">
-                    <div class="num"><span class="numeric">{{ avg_time_spent_on_queries |floatformat:0 }}<span class="unit">ms</span></span></div>
+                    <div class="num"><span class="numeric">{{ avg_time_spent_on_queries|floatformat:0 }}<span class="unit">ms</span></span></div>
                     <div class="desc">Avg. DB Time</div>
                 </div>
             {% else %}
@@ -174,7 +174,7 @@
             <h2>Most Time Overall</h2>
             {% if longest_queries_by_view %}
                 {% for x in longest_queries_by_view %}
-                    <a href="{% url "silk:request_detail" request_id=x.pk %}">
+                    <a href="{% url silk:request_detail request_id=x.pk %}">
                         {% request_summary x %}
                     </a>
                 {% endfor %}
@@ -184,7 +184,7 @@
             <h2>Most Time Spent in Database</h2>
             {% if most_time_spent_in_db %}
                 {% for x in most_time_spent_in_db %}
-                    <a href="{% url "silk:request_detail" request_id=x.pk %}">
+                    <a href="{% url silk:request_detail request_id=x.pk %}"">
                         {% request_summary x %}
                     </a>
                 {% endfor %}
@@ -194,7 +194,7 @@
             <h2>Most Database Queries</h2>
             {% if most_queries %}
                 {% for x in most_queries %}
-                    <a href="{% url "silk:request_detail" request_id=x.pk %}">
+                    <a href="{% url silk:request_detail request_id=x.pk %}">
                         {% request_summary x %}
                     </a>
                 {% endfor %}

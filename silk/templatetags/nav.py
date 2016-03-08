@@ -5,12 +5,13 @@ register = template.Library()
 
 
 @register.simple_tag
-def navactive(request, urls, *args, **kwargs):
+def navactive(request, urls, url_arg=None):
     path = request.path
-    urls = [reverse(url, args=args) for url in urls.split()]
+    if url_arg:
+    	urls = [reverse(url, args=[url_arg]) for url in urls.split()]
+    else:
+    	urls = [reverse(url) for url in urls.split()]
     if path in urls:
-        cls = kwargs.get('class', None)
-        if not cls:
-            cls = "menu-item-selected"
+        cls = "menu-item-selected"
         return cls
     return ""

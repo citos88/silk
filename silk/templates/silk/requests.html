@@ -1,6 +1,6 @@
 {% extends 'silk/base/root_base.html' %}
 {% load inclusion %}
-{% load staticfiles %}
+{% load static %}
 
 {% block menu %}
     {% root_menu request %}
@@ -197,7 +197,7 @@
 {% block data %}
     {% if results %}
         {% for silk_request in results %}
-            <a href="{% url "silk:request_detail" request_id=silk_request.pk %}">
+            <a href="{% url silk:request_detail request_id=silk_request.pk %}">
                 {% request_summary silk_request %}
             </a>
         {% endfor %}

@@ -5,7 +5,6 @@ from datetime import timedelta, datetime
 import logging
 
 from django.db.models import Q, Count, Sum
-from django.utils import timezone
 from silk.profiling.dynamic import _get_module
 
 from silk.templatetags.filters import _silk_date_time
@@ -56,7 +55,7 @@ class SecondsFilter(BaseFilter):
                 value = int(n)
             except ValueError as e:
                 raise FilterValidationError(e)
-            now = timezone.now()
+            now = datetime.now()
             frm_dt = now - timedelta(seconds=value)
             super(SecondsFilter, self).__init__(value, start_time__gt=frm_dt)
         else:
